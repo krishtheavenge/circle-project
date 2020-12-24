@@ -1,39 +1,45 @@
-var numbers=[];
-function submit(){
-    var display_student_array=[];
-    for(var i=1; i<=6; i++){
-        var Inputs=document.getElementById("#"+i).value;
-        console.log(Inputs);
-        numbers.push(Inputs);
-    }
-    console.log(student_name_array);
-   var length_array=student_name_array.length;
-   console.log(length_array); 
-   for(var j=0; j<length_array; j++){
-       display_student_array.push("<h4>Name -"+student_name_array[j]+"</h4>"); 
-       console.log(display_student_array);  
-        
-   }
-   console.log(display_student_array);
-   document.getElementById("display_name_with_commas").innerHTML=display_student_array; 
-   var remove_camma=display_student_array.join(" ");
-   console.log(remove_camma);
-   document.getElementById("display_name_without_commas").innerHTML=remove_camma;
-   document.getElementById("submit_button").style.display="none"; 
-   document.getElementById("sort_button").style.display="inline-block"; 
+var canvas = document.getElementById("myCanvas");
+console.log('CANVAS==' + canvas);
+ctx=canvas.getContext("2d");
+var mouseEvent="";
+var xlast="";
+var ylast="";
+var color=document.getElementById("color").value;
+var width=document.getElementById("width").value;
+var radius=document.getElementById("radius").value;
+canvas.addEventListener("mousedown",my_mousedown);
+function my_mousedown(e){
+    mouseEvent="mousedown";
+    color = document.getElementById("color").value;
+    width = document.getElementById("width").value;
 }
-function sorting(){
-    student_name_array.sort();
-    console.log(student_name_array);
-    var display_student_sorting_array=[];
-    var length_array=student_name_array.length;
-    console.log(length_array); 
-    for(var j=0; j<length_array; j++){
-        display_student_sorting_array.push("<h4>Name -"+student_name_array[j]+"</h4>"); 
-        console.log(display_student_sorting_array);  
-        var remove_camma=display_student_sorting_array.join(" ");
+canvas.addEventListener("mouseup",my_mouseup);
+function my_mouseup(){
+    mouseEvent="mouseup";
+
+}
+canvas.addEventListener("mouseleave",my_mouseleave);
+function my_mouseleave(){
+    mouseEvent="mouseleave";
+}
+canvas.addEventListener("mousemove",my_mousemove);
+function my_mousemove(e){
+    console.log('mouse move');
+    var current_xposition=e.clientX-canvas.offsetLeft;
+    var current_yposition=e.clientY-canvas.offsetTop;
+    if( mouseEvent == "mousedown")
+    {
+        console.log('mouse down');
+        color = document.getElementById("color").value;
+        width = document.getElementById("width").value;
+        radius = document.getElementById("radius").value;
+        console.log(' width' + width);
+        ctx.beginPath();
+        ctx.strokeStyle=color;
+        ctx.lineWidth=width;
+        ctx.arc(current_xposition, current_yposition, radius ,0 ,2 * Math.PI);
+        ctx.stroke();
     }
-    var remove_camma=display_student_sorting_array.join(" ");
-    console.log(remove_camma);
-    document.getElementById("display_name_without_commas").innerHTML=remove_camma;
+        xlast=current_xposition;
+        ylast=current_yposition;
 }
